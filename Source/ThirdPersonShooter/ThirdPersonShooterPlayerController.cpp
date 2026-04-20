@@ -31,6 +31,8 @@ void AThirdPersonShooterPlayerController::BeginPlay()
 		}
 
 	}
+	hudWidget = CreateWidget<UCrossHairWidget>(this,hudClass);
+	hudWidget->AddToViewport();
 }
 
 void AThirdPersonShooterPlayerController::SetupInputComponent()

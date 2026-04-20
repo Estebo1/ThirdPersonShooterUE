@@ -12,6 +12,21 @@
 #include "InputActionValue.h"
 #include "ThirdPersonShooter.h"
 
+void AThirdPersonShooterCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetMesh()->HideBoneByName("pistol",EPhysBodyOp::PBO_None);
+
+	currentGun = GetWorld()->SpawnActor<AGun>(gunclass);
+	if (currentGun) {
+		currentGun->SetOwner(this);
+		currentGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("pistolSocket"));
+		currentGun->ownerController = GetController();
+	}
+
+}
+
 AThirdPersonShooterCharacter::AThirdPersonShooterCharacter()
 {
 	// Set size for collision capsule
@@ -65,6 +80,8 @@ void AThirdPersonShooterCharacter::SetupPlayerInputComponent(UInputComponent* Pl
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AThirdPersonShooterCharacter::Look);
+
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &AThirdPersonShooterCharacter::Shoot);
 	}
 	else
 	{
@@ -72,6 +89,10 @@ void AThirdPersonShooterCharacter::SetupPlayerInputComponent(UInputComponent* Pl
 	}
 }
 
+void AThirdPersonShooterCharacter::Shoot() {
+	if(currentGun)
+	currentGun->PullTrigger();
+}
 void AThirdPersonShooterCharacter::Move(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemp, Display, TEXT("Nose"));

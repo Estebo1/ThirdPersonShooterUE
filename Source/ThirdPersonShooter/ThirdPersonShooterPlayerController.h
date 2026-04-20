@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "CrossHairWidget.h"
 #include "ThirdPersonShooterPlayerController.generated.h"
 
 class UInputMappingContext;
@@ -41,4 +42,10 @@ protected:
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
 
+public:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UCrossHairWidget> hudClass;
+
+	UPROPERTY(VisibleAnywhere)
+	UCrossHairWidget* hudWidget;
 };

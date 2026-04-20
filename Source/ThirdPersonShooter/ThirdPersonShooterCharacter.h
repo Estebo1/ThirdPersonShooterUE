@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Gun.h"
 #include "ThirdPersonShooterCharacter.generated.h"
 
 class USpringArmComponent;
@@ -49,6 +50,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
 
+	//Shoot
+	UPROPERTY(EditAnywhere,Category ="Input")
+	UInputAction* ShootAction;
+
+	virtual void BeginPlay() override;
+
 public:
 
 	/** Constructor */
@@ -67,6 +74,8 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	void Shoot();
+
 public:
 
 	/** Handles move inputs from either controls or UI interfaces */
@@ -84,6 +93,12 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AGun> gunclass;
+
+	UPROPERTY(VisibleAnywhere)
+	AGun* currentGun;
 
 public:
 
