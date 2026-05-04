@@ -99,6 +99,14 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	AGun* currentGun;
+	UPROPERTY(EditAnywhere)
+	float maxHealth = 100;
+	float health;
+	UPROPERTY(BlueprintReadOnly)
+	bool isAlive = true;
+
+	UFUNCTION()
+	void OnDamageTaken(AActor* damageActor, float damage, const class UDamageType* DamageType, class AController* instigatedBy, AActor* DamageCauser);
 
 public:
 

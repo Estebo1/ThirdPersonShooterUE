@@ -16,6 +16,9 @@ void AThirdPersonShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	health = maxHealth;
+
+	OnTakeAnyDamage.AddDynamic(this, &AThirdPersonShooterCharacter::OnDamageTaken);
 	GetMesh()->HideBoneByName("pistol",EPhysBodyOp::PBO_None);
 
 	currentGun = GetWorld()->SpawnActor<AGun>(gunclass);
@@ -152,4 +155,16 @@ void AThirdPersonShooterCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+void AThirdPersonShooterCharacter::OnDamageTaken(AActor* damageActor, float damage, const UDamageType* DamageType, AController* instigatedBy, AActor* DamageCauser)
+{
+	if (isAlive) {
+		health -= damage;
+		UE_LOG(LogTemp, Warning, TEXT("Damaged %f"), health);
+		if (health <= 0) {
+			isAlive = 0;
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+	}
 }
