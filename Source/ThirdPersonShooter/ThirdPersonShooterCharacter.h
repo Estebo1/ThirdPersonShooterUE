@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "Gun.h"
+#include "ThirdPersonShooterPlayerController.h"
 #include "ThirdPersonShooterCharacter.generated.h"
 
 class USpringArmComponent;
@@ -74,10 +75,15 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	void Shoot();
 
 public:
 
+	float gameOverDelay = 3.0f;
+
+	void RestartGameLevels();
+	void UpdateHUD();
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void Shoot();
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoMove(float Right, float Forward);

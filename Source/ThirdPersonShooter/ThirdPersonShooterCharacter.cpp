@@ -92,6 +92,25 @@ void AThirdPersonShooterCharacter::SetupPlayerInputComponent(UInputComponent* Pl
 	}
 }
 
+void AThirdPersonShooterCharacter::RestartGameLevels()
+{
+	FString name = UGameplayStatics::GetCurrentLevelName(GetWorld());
+	UGameplayStatics::OpenLevel(GetWorld(), *name);
+}
+
+void AThirdPersonShooterCharacter::UpdateHUD()
+{
+	AThirdPersonShooterPlayerController* playerController = Cast<AThirdPersonShooterPlayerController>(GetController());
+	if (playerController) {
+		playerController->hudWidget->SetPorcent(health / maxHealth);
+
+		if (health <= 0) {
+			FTimerHandle gameOverHandle;
+			GetWorldTimerManager().SetTimer(gameOverHandle, this, &AThirdPersonShooterCharacter::RestartGameLevels, gameOverDelay, false);
+		}
+	}
+}
+
 void AThirdPersonShooterCharacter::Shoot() {
 	if(currentGun)
 	currentGun->PullTrigger();
@@ -161,6 +180,7 @@ void AThirdPersonShooterCharacter::OnDamageTaken(AActor* damageActor, float dama
 {
 	if (isAlive) {
 		health -= damage;
+		UpdateHUD();
 		UE_LOG(LogTemp, Warning, TEXT("Damaged %f"), health);
 		if (health <= 0) {
 			isAlive = 0;
