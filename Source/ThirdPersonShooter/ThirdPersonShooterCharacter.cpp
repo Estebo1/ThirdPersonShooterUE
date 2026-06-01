@@ -17,6 +17,7 @@ void AThirdPersonShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	health = maxHealth;
+	isAlive = true;
 
 	OnTakeAnyDamage.AddDynamic(this, &AThirdPersonShooterCharacter::OnDamageTaken);
 	GetMesh()->HideBoneByName("pistol",EPhysBodyOp::PBO_None);
@@ -112,7 +113,7 @@ void AThirdPersonShooterCharacter::UpdateHUD()
 }
 
 void AThirdPersonShooterCharacter::Shoot() {
-	if(currentGun)
+	if(currentGun && isAlive)
 	currentGun->PullTrigger();
 }
 void AThirdPersonShooterCharacter::Move(const FInputActionValue& Value)
@@ -187,4 +188,10 @@ void AThirdPersonShooterCharacter::OnDamageTaken(AActor* damageActor, float dama
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
 	}
+}
+
+void AThirdPersonShooterCharacter::LaunchPlayer(float upForce)
+{
+	FVector launchForce =  launchDirection * upForce;
+	LaunchCharacter(launchForce, false, true);
 }

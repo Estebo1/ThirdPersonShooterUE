@@ -7,9 +7,7 @@ void AEnemyAI::BeginPlay()
 {
 	Super::BeginPlay();
 	playerPawn = Cast<AThirdPersonShooterCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
-	if (playerPawn) {
-		SetFocus(playerPawn);
-	}
+
 }
 
 void AEnemyAI::Tick(float deltaSeconds)

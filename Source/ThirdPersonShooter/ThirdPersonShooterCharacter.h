@@ -113,7 +113,10 @@ public:
 
 	UFUNCTION()
 	void OnDamageTaken(AActor* damageActor, float damage, const class UDamageType* DamageType, class AController* instigatedBy, AActor* DamageCauser);
+	UFUNCTION()
+	void LaunchPlayer(float upForce);
 
+	FVector launchDirection = GetActorUpVector();
 public:
 
 	/** Returns CameraBoom subobject **/

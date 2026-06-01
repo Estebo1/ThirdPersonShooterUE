@@ -36,7 +36,10 @@ void UtriggerComp::Trigger(bool triggerValue)
 void UtriggerComp::OnBeginOverlap(UPrimitiveComponent* overlappedComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
 {
 	if (otherActor && otherActor->ActorHasTag("Player")) {
-		if (!isTriggered) Trigger(true);
+		if (!isTriggered) {
+			Trigger(true);
+			
+		}
 	}
 }
 void UtriggerComp::OnEndOverlap(UPrimitiveComponent* overlappedComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex)

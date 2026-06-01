@@ -16,7 +16,7 @@ void UBTServide_PlayerLocation::TickNode(UBehaviorTreeComponent& ownerComp, uint
 	AThirdPersonShooterCharacter* player = controller->GetPlayerCharacter();
 	UBlackboardComponent* blackboard = controller->GetBlackboardComponent();
 
-	if (controller->LineOfSightTo(player)) {
+	if (controller->LineOfSightTo(player) && player->isAlive) {
 		controller->SetFocus(player);
 		blackboard->SetValueAsVector(GetSelectedBlackboardKey(), player->GetActorLocation());
 	}
